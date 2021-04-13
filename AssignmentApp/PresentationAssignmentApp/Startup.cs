@@ -30,8 +30,14 @@ namespace PresentationAssignmentApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 6, 0);
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+           // services.AddOptions<IdentityOptions>().Services.
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

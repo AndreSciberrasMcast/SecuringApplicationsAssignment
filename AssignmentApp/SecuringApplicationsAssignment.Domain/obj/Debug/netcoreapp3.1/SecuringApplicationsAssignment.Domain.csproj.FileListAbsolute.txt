@@ -1,0 +1,9 @@
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.deps.json
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.pdb
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.csprojAssemblyReference.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.AssemblyInfoInputs.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.AssemblyInfo.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.csproj.CoreCompileInputs.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Domain\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.pdb
