@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "jyx4meulfPPkaGwsFmxCHBmqbtEBB1aW7Z2Fv2R6dhpRp6+F9OpWHCSiU9R8yStJ8SNr6ZZ6CdJcWZVu+ngdNg==",
+  "dgSpecHash": "M/+NdYBpk27o3jExor2TGg5QmsRXKHA2j4QAw0idGfuKOLXdOJ0AvHZ1XOK+bTsa9H9fpuCA4+XBhooHoBIfrA==",
   "success": true,
   "projectFilePath": "C:\\Users\\AndrePC\\source\\repos\\SecuringApplicationsAssignment\\AssignmentApp\\PresentationAssignmentApp\\PresentationAssignmentApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\3.1.13\\microsoft.aspnetcore.authentication.google.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.13\\microsoft.aspnetcore.cryptography.internal.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.13\\microsoft.aspnetcore.cryptography.keyderivation.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\3.1.13\\microsoft.aspnetcore.diagnostics.entityframeworkcore.3.1.13.nupkg.sha512",
@@ -36,7 +37,7 @@
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.13\\microsoft.extensions.configuration.abstractions.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.configuration.binder\\3.1.13\\microsoft.extensions.configuration.binder.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\3.1.13\\microsoft.extensions.dependencyinjection.3.1.13.nupkg.sha512",
-    "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.13\\microsoft.extensions.dependencyinjection.abstractions.3.1.13.nupkg.sha512",
+    "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\3.1.13\\microsoft.extensions.fileproviders.abstractions.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.fileproviders.embedded\\3.1.13\\microsoft.extensions.fileproviders.embedded.3.1.13.nupkg.sha512",
     "C:\\Users\\AndrePC\\.nuget\\packages\\microsoft.extensions.identity.core\\3.1.13\\microsoft.extensions.identity.core.3.1.13.nupkg.sha512",

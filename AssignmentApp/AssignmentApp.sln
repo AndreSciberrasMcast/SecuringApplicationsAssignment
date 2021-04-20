@@ -13,15 +13,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IOC", "IOC", "{BDEB7964-9F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{09DFC819-03ED-4018-81F6-D2834C8A078C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationAssignmentApp", "PresentationAssignmentApp\PresentationAssignmentApp.csproj", "{9E6BD6D1-1C2F-4C0A-ADA9-5AA4874BFACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationAssignmentApp", "PresentationAssignmentApp\PresentationAssignmentApp.csproj", "{9E6BD6D1-1C2F-4C0A-ADA9-5AA4874BFACA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14375B7F-9C74-40E4-BBD3-5FA3F74799DB} = {14375B7F-9C74-40E4-BBD3-5FA3F74799DB}
+		{888BF37F-0EB0-485B-A69B-97FFF788E6A8} = {888BF37F-0EB0-485B-A69B-97FFF788E6A8}
+		{8DD98CA4-FA73-482D-AA85-FB932DFAA22D} = {8DD98CA4-FA73-482D-AA85-FB932DFAA22D}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuringApplicationsAssignment.IOC", "SecuringApplicationsAssignment.IOC\SecuringApplicationsAssignment.IOC.csproj", "{888BF37F-0EB0-485B-A69B-97FFF788E6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.IOC", "SecuringApplicationsAssignment.IOC\SecuringApplicationsAssignment.IOC.csproj", "{888BF37F-0EB0-485B-A69B-97FFF788E6A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuringApplicationsAssignment.Domain", "SecuringApplicationsAssignment.Domain\SecuringApplicationsAssignment.Domain.csproj", "{49DF8F49-0992-454B-A4CE-B45656007645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.Domain", "SecuringApplicationsAssignment.Domain\SecuringApplicationsAssignment.Domain.csproj", "{49DF8F49-0992-454B-A4CE-B45656007645}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuringApplicationsAssignment.Data", "SecuringApplicationsAssignment.Data\SecuringApplicationsAssignment.Data.csproj", "{14375B7F-9C74-40E4-BBD3-5FA3F74799DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.Data", "SecuringApplicationsAssignment.Data\SecuringApplicationsAssignment.Data.csproj", "{14375B7F-9C74-40E4-BBD3-5FA3F74799DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuringApplicationsAssignment.Application", "SecuringApplicationsAssignment.Application\SecuringApplicationsAssignment.Application.csproj", "{8DD98CA4-FA73-482D-AA85-FB932DFAA22D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.Application", "SecuringApplicationsAssignment.Application\SecuringApplicationsAssignment.Application.csproj", "{8DD98CA4-FA73-482D-AA85-FB932DFAA22D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

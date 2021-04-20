@@ -12,6 +12,8 @@ using PresentationAssignmentApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SecuringApplicationsAssignment.IOC;
+using SecuringApplicationsAssignment.Data.Context;
 
 namespace PresentationAssignmentApp
 {
@@ -30,6 +32,13 @@ namespace PresentationAssignmentApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<MyDatabaseContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            DependancyContainer.RegisterServices(services, Configuration.GetConnectionString("DefaultConnection"));
+
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
@@ -37,7 +46,26 @@ namespace PresentationAssignmentApp
                 options.Password.RequiredLength = 6;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
-           // services.AddOptions<IdentityOptions>().Services.
+
+            services.Configure<IdentityOptions>(
+                options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = true;
+
+                });
+
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
+
+            // services.AddOptions<IdentityOptions>().Services.
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

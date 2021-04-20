@@ -161,9 +161,6 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Prese
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.csproj.CoreCompileInputs.cache
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
@@ -171,3 +168,15 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Prese
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.IOC.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.IOC.pdb
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.csproj.CoreCompileInputs.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.pdb
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Domain.pdb
