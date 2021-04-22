@@ -23,7 +23,8 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
@@ -43,9 +44,10 @@ namespace SecuringApplicationsAssignment.Data.Migrations
 
             modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Comment", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -54,7 +56,7 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                     b.Property<Guid>("SubmissionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("SubmissionId");
 
@@ -65,7 +67,8 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("AssignmentId")
                         .HasColumnType("uniqueidentifier");

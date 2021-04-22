@@ -9,7 +9,7 @@ namespace SecuringApplicationsAssignment.Domain.Models
     {
 
         [Key]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
         
         [Required]
         public string Data { get; set; }

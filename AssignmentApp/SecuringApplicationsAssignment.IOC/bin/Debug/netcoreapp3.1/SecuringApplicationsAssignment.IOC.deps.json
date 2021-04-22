@@ -10,7 +10,10 @@
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "SecuringApplicationsAssignment.Application": "1.0.0",
+          "SecuringApplicationsAssignment.Data": "1.0.0",
+          "SecuringApplicationsAssignment.Domain": "1.0.0"
         },
         "runtime": {
           "SecuringApplicationsAssignment.IOC.dll": {}
@@ -1020,6 +1023,35 @@
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
         }
+      },
+      "SecuringApplicationsAssignment.Application/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13",
+          "SecuringApplicationsAssignment.Data": "1.0.0"
+        },
+        "runtime": {
+          "SecuringApplicationsAssignment.Application.dll": {}
+        }
+      },
+      "SecuringApplicationsAssignment.Data/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13",
+          "SecuringApplicationsAssignment.Domain": "1.0.0"
+        },
+        "runtime": {
+          "SecuringApplicationsAssignment.Data.dll": {}
+        }
+      },
+      "SecuringApplicationsAssignment.Domain/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13"
+        },
+        "runtime": {
+          "SecuringApplicationsAssignment.Domain.dll": {}
+        }
       }
     }
   },
@@ -1721,6 +1753,21 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "SecuringApplicationsAssignment.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SecuringApplicationsAssignment.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SecuringApplicationsAssignment.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

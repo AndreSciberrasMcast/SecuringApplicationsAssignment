@@ -19,5 +19,14 @@ namespace SecuringApplicationsAssignment.Data.Context
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Assignment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Comment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Submission>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+        }
     }
 }

@@ -33,11 +33,9 @@ namespace PresentationAssignmentApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<MyDatabaseContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            
 
-            DependancyContainer.RegisterServices(services, Configuration.GetConnectionString("DefaultConnection"));
+           
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
@@ -68,6 +66,8 @@ namespace PresentationAssignmentApp
             // services.AddOptions<IdentityOptions>().Services.
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            DependancyContainer.RegisterServices(services, Configuration.GetConnectionString("DefaultConnection"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2723,6 +2723,24 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "SecuringApplicationsAssignment.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13",
+          "SecuringApplicationsAssignment.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SecuringApplicationsAssignment.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SecuringApplicationsAssignment.Application.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "SecuringApplicationsAssignment.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -2764,7 +2782,10 @@
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.13",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.13",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "SecuringApplicationsAssignment.Application": "1.0.0",
+          "SecuringApplicationsAssignment.Data": "1.0.0",
+          "SecuringApplicationsAssignment.Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/SecuringApplicationsAssignment.IOC.dll": {}
@@ -8916,6 +8937,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "SecuringApplicationsAssignment.Application/1.0.0": {
+      "type": "project",
+      "path": "../SecuringApplicationsAssignment.Application/SecuringApplicationsAssignment.Application.csproj",
+      "msbuildProject": "../SecuringApplicationsAssignment.Application/SecuringApplicationsAssignment.Application.csproj"
+    },
     "SecuringApplicationsAssignment.Data/1.0.0": {
       "type": "project",
       "path": "../SecuringApplicationsAssignment.Data/SecuringApplicationsAssignment.Data.csproj",
@@ -8941,6 +8967,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.13",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.13",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.5",
+      "SecuringApplicationsAssignment.Application >= 1.0.0",
       "SecuringApplicationsAssignment.Data >= 1.0.0",
       "SecuringApplicationsAssignment.IOC >= 1.0.0"
     ]
@@ -8971,6 +8998,9 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
+            "C:\\Users\\AndrePC\\source\\repos\\SecuringApplicationsAssignment\\AssignmentApp\\SecuringApplicationsAssignment.Application\\SecuringApplicationsAssignment.Application.csproj": {
+              "projectPath": "C:\\Users\\AndrePC\\source\\repos\\SecuringApplicationsAssignment\\AssignmentApp\\SecuringApplicationsAssignment.Application\\SecuringApplicationsAssignment.Application.csproj"
+            },
             "C:\\Users\\AndrePC\\source\\repos\\SecuringApplicationsAssignment\\AssignmentApp\\SecuringApplicationsAssignment.Data\\SecuringApplicationsAssignment.Data.csproj": {
               "projectPath": "C:\\Users\\AndrePC\\source\\repos\\SecuringApplicationsAssignment\\AssignmentApp\\SecuringApplicationsAssignment.Data\\SecuringApplicationsAssignment.Data.csproj"
             },

@@ -21,6 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationAssignmentApp",
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.IOC", "SecuringApplicationsAssignment.IOC\SecuringApplicationsAssignment.IOC.csproj", "{888BF37F-0EB0-485B-A69B-97FFF788E6A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8DD98CA4-FA73-482D-AA85-FB932DFAA22D} = {8DD98CA4-FA73-482D-AA85-FB932DFAA22D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuringApplicationsAssignment.Domain", "SecuringApplicationsAssignment.Domain\SecuringApplicationsAssignment.Domain.csproj", "{49DF8F49-0992-454B-A4CE-B45656007645}"
 EndProject

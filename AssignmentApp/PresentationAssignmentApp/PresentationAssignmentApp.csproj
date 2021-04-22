@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SecuringApplicationsAssignment.Application\SecuringApplicationsAssignment.Application.csproj" />
     <ProjectReference Include="..\SecuringApplicationsAssignment.Data\SecuringApplicationsAssignment.Data.csproj" />
     <ProjectReference Include="..\SecuringApplicationsAssignment.IOC\SecuringApplicationsAssignment.IOC.csproj" />
   </ItemGroup>
