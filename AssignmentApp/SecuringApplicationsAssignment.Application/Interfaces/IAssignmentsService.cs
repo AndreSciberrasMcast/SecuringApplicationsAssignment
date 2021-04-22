@@ -10,5 +10,10 @@ namespace SecuringApplicationsAssignment.Application.Interfaces
     {
         IQueryable<AssignmentViewmodel> GetAssignments();
 
+        AssignmentViewmodel GetAssignment(Guid id);
+
+        void AddAssignment(AssignmentViewmodel assignment);
+
+        void DeleteAssignment(Guid id);
     }
 }

@@ -3,18 +3,37 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Assignments Catalogue</h1>
+<div class="jumbotron jumbotron-fluid text-Center">
+    <div class="container">
+        <h1 class="display-4">Assignments Catalogue</h1>
+    </div>
+</div>
 
 <div class="container">
-    <div class="row">
+    <div class="row mt-5">
         @foreach (var p in Model)
         {
-            <div class="row">
+            <div class="col-3 m-4">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@p.Name</h5>
                         <p class="card-text">@p.Description.</p>
                         <p class="card-text">@p.Deadline.</p>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <a href="/Assignments/Delete?id=@p.Id" class="btn btn-danger">Delete</a>
+                            <a href="/Assignments/ViewSubmissions?id=@p.Id" class="btn btn-success">View Submissions</a>
+                        }
+                        @if (User.IsInRole("Student"))
+                        {
+                            <a href="/Assignments/SubmitAssignment?id=@p.Id" class="btn btn-info">Submit</a>
+                            
+                            <!-- If assignment has been submitted, view Submission-->
+                            <a href="/Assignments/ViewSubmission?id=@p.Id" class="btn btn-info">View Submission</a>
+                        }
+
+
+
                     </div>
                 </div>
             </div>

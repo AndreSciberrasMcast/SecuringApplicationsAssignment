@@ -22,6 +22,10 @@ namespace SecuringApplicationsAssignment.IOC
 
             services.AddScoped<ISubmissionsRepository, SubmissionsRepository>();
 
+            services.AddScoped<IStudentsRepository, StudentsRepository>();
+            services.AddScoped<IStudentsService, StudentsService>();
+
+
         }
     }
 }

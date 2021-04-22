@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PresentationAssignmentApp.Models;
+using SecuringApplicationsAssignment.Application.Interfaces;
+using SecuringApplicationsAssignment.Domain.Interfaces;
 
 namespace PresentationAssignmentApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private IStudentsService _studentsService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IStudentsService studentsService)
         {
             _logger = logger;
+            _studentsService = studentsService;
         }
 
         public IActionResult Index()

@@ -183,3 +183,6 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Prese
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.dll
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.pdb
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.genruntimeconfig.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Views\Assignments\Create.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Views\Assignments\SubmitAssignment.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\bundleconfig.json

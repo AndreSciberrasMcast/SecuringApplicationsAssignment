@@ -20,6 +20,8 @@ namespace SecuringApplicationsAssignment.Data.Context
 
         public DbSet<Submission> Submissions { get; set; }
 
+        public DbSet<Student> Students { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
