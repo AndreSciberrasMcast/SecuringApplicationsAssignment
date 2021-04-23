@@ -25,17 +25,20 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IMembersService _membersService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IMembersService membersService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _membersService = membersService;
         }
 
         [BindProperty]
@@ -65,6 +68,12 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
+            [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Name is not valid. Use only letters")]
+            public string FirstName { get; set; }
+
+            [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Surname is not valid. Use only letters")]
+            public String LastName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -83,6 +92,14 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    _membersService.AddMember(
+                        new SecuringApplicationsAssignment.Application.ViewModels.MemberViewModel()
+                        {
+                            Email = Input.Email,
+                            FirstName = Input.FirstName,
+                            LastName = Input.LastName
+                        });
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

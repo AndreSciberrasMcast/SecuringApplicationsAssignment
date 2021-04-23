@@ -3,25 +3,28 @@ using SecuringApplicationsAssignment.Domain.Interfaces;
 using SecuringApplicationsAssignment.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SecuringApplicationsAssignment.Data.Repositories
 {
-    public class StudentsRepository : IStudentsRepository
+    public class MembersRepository : IMembersRepository
     {
-
         MyDatabaseContext _context;
 
-        public StudentsRepository(MyDatabaseContext context)
+        public MembersRepository(MyDatabaseContext context)
         {
             _context = context;
         }
 
-        public Guid AddStudent(Student s)
+        public void AddMember(Member m)
         {
-            _context.Students.Add(s);
+            _context.Members.Add(m);
             _context.SaveChanges();
-            return s.Id;
         }
-    }
+
+        public Member GetMember(string email)
+        {
+            return  _context.Members.SingleOrDefault(x => x.Email == email);        }
+        }
 }

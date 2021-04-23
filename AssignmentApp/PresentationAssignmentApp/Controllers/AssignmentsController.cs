@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PresentationAssignmentApp.Models;
@@ -14,76 +15,120 @@ namespace PresentationAssignmentApp.Controllers
 {
     public class AssignmentsController : Controller
     {
-        private IAssignmentsService _assignmentsService;
+        private readonly IAssignmentsService _assignmentsService;
+        private readonly IWebHostEnvironment _host;
+        private readonly IMembersService _membersService;
 
-        public AssignmentsController(IAssignmentsService assignmentsService)
+        public AssignmentsController(IAssignmentsService assignmentsService, IMembersService membersService, IWebHostEnvironment host)
         {
             _assignmentsService = assignmentsService;
+            _membersService = membersService;
+            _host = host;
         }
 
         [Authorize]
         public IActionResult Index()
         {
             
-            var list = _assignmentsService.GetAssignments();   
+            var list = _assignmentsService.GetAssignments();
+
+            //AssignmentViewmodel assignment = _assignmentsService.GetAssignment(new Guid("F73ECF10-167C-4201-B52D-4EDC7776ED36"));
+
+
+            List <AssignmentViewmodel> assignments = new List<AssignmentViewmodel>();
+
+            if (User.IsInRole("Student"))
+            {
+                foreach (AssignmentViewmodel a in list)
+                {
+                    string assignmentIssuer = a.Member.Email;
+                    string studentsTeacher = _membersService.GetMember(User.Identity.Name).TeacherEmail;
+
+                    if (a.Member.Email.Equals(_membersService.GetMember(User.Identity.Name).TeacherEmail))
+                    {
+                        assignments.Add(a);
+                    }
+                }
+                return View(assignments);
+            }
+
             return View(list);
+            
         }
+
 
         [HttpGet]
         [Authorize(Roles = "Student")]
         public IActionResult SubmitAssignment(Guid id)
         {
+            CookieOptions cookieOptions = new CookieOptions();
+            Response.Cookies.Append("Assignment", id.ToString(), cookieOptions);
             var assignment = _assignmentsService.GetAssignment(id);
+            
             ViewBag.Assignment = assignment;
+
             return View();
         }
+        
 
         [HttpPost]
         [Authorize(Roles = "Student")]
         [ValidateAntiForgeryToken]
-        public IActionResult SubmitAssignment(AddSubmissionViewModel model)
-        { 
+        public IActionResult SubmitAssignment(IFormFile file)
+        {
+            var assignment = _assignmentsService.GetAssignment(Guid.Parse(Request.Cookies["Assignment"]));
 
-            if (model.File != null)
+            ViewBag.Assignment = assignment;
+
+            if (file != null)
             {
-                Stream stream = model.File.OpenReadStream();
+                Stream stream = file.OpenReadStream();
                 int firstByte = stream.ReadByte();
                 int secondByte = stream.ReadByte();
                 int thirdByte = stream.ReadByte();
                 int fourthByte = stream.ReadByte();
                 stream.Position = 0;
-                
 
-                //pdf file signature 25 50 44
-                if (firstByte == 37 && secondByte == 80 && thirdByte == 68 && fourthByte == 70 && Path.GetExtension(model.File.FileName) == ".pdf")
+
+                //If the file passes the following check, a submission is created with user credentials
+                if (firstByte == 37 && secondByte == 80 && thirdByte == 68 && fourthByte == 70 && Path.GetExtension(file.FileName) == ".pdf")
                 {
-                    using(FileStream fs = new FileStream(@"path", FileMode.CreateNew, FileAccess.Write))
-                    {
-                        stream.CopyTo(fs);
-                    }
-                   
-                        //continue to uploading the file
-                    //string absolutePath = _host.WebRootPath + @"\images\";
-                    string uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(model.File.FileName);
-                    //System.IO.File.WriteAllBytes(absolutePath + uniqueName, ms.ToArray());
+                    string absolutePath = _host.WebRootPath + @"\..\ProtectedFiles\";
+                    string uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
-                    //Accept File
+                    MemoryStream ms = new MemoryStream();
+                    stream.CopyTo(ms);
+                    ms.Position = 0;
+
+
+                    System.IO.File.WriteAllBytes(absolutePath + uniqueName, ms.ToArray());
+
+                    //Create a submission to be save to db
+                    SubmissionViewModel submission = new SubmissionViewModel();
+                    submission.Member = _membersService.GetMember(User.Identity.Name);
+                    submission.Assignment = _assignmentsService.GetAssignment(Guid.Parse(Request.Cookies["Assignment"]));
+                    
+                    //Maybe encrypt
+                    submission.FilePath = absolutePath;
+                    _assignmentsService.AddSubmission(submission);
+
+                    TempData["info"] = "File accepted";
+
+                    return RedirectToAction("index");
+
                 }
                 else
                 {
-                    ModelState.AddModelError("model", "File is not valid. Only PDF allowed.");
+                    TempData["warning"] = "File is not valid, only PDF allowed";
                     return View();
                 }
-
-
             }
             else
             {
-                ModelState.AddModelError("model", "Please upload your file");
+                TempData["warning"] = "Please upload a file";
+
                 return View();
             }
-
-            return View();
         }
 
 
@@ -101,8 +146,14 @@ namespace PresentationAssignmentApp.Controllers
         {
             try
             {
-                _assignmentsService.AddAssignment(data);
-                ViewData["feedback"] = "Assignment added";
+                //data.Member.Email = "scibby98@gmail.com";
+                if(data.Name != null && data.Description != null && data.Deadline > DateTime.Now)
+                {
+                    data.Member = _membersService.GetMember(User.Identity.Name);
+                    _assignmentsService.AddAssignment(data);
+                    ViewData["info"] = "Assignment added";
+                }
+                return View();
             }
             catch(Exception ex)
             {
@@ -122,7 +173,7 @@ namespace PresentationAssignmentApp.Controllers
             try
             {
                 _assignmentsService.DeleteAssignment(id);
-                ViewData["feedback"] = "Assignment deleted";
+                ViewData["info"] = "Assignment deleted";
             }catch(Exception ex)
             {
                 ViewData["warning"] = "Error deleting assignment";

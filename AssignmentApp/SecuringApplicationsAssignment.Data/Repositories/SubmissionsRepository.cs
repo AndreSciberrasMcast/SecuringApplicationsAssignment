@@ -17,14 +17,20 @@ namespace SecuringApplicationsAssignment.Data.Repositories
             _context = context;
         }
 
-        public Submission GetSubmission(Guid assignmentId, Guid userD)
+        public Submission GetSubmission(Guid assignmentId, string studentEmail)
         {
-            return _context.Submissions.SingleOrDefault(x => x.Id == assignmentId);
+            return _context.Submissions.SingleOrDefault(x => x.Id == assignmentId && x.Member.Email == studentEmail);
         }
 
         public IQueryable<Submission> GetSubmissions(Guid assignmentID)
         {
             throw new NotImplementedException();
+        }
+
+        public void AddSubmission(Submission s)
+        {
+            _context.Submissions.Add(s);
+            _context.SaveChanges();
         }
     }
 }

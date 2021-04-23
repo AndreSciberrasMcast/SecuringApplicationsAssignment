@@ -10,10 +10,8 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
 
         public string Data { get; set; }
 
-        //[Required]
-        //User or Teacher
-        // public User User { get; set; }
-
         public SubmissionViewModel Submission { get; set; }
+
+        public MemberViewModel Member { get; set; }
     }
 }

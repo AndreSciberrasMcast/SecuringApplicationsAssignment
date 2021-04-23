@@ -10,7 +10,9 @@ namespace SecuringApplicationsAssignment.Domain.Interfaces
     {
         IQueryable<Submission> GetSubmissions(Guid assignmentID);
 
-        Submission GetSubmission(Guid assignmentID, Guid userD);
+        Submission GetSubmission(Guid assignmentID, string userEmail);
+
+        void AddSubmission(Submission s);
 
     }
 }

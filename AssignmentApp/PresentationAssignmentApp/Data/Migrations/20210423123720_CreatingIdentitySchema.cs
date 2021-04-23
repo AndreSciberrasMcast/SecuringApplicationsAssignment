@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SecuringApplicationsAssignment.Data.Migrations
+namespace PresentationAssignmentApp.Data.Migrations
 {
-    public partial class AddedVirtual : Migration
+    public partial class CreatingIdentitySchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

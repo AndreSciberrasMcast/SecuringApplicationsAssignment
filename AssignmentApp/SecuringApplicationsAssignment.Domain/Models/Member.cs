@@ -5,15 +5,18 @@ using System.Text;
 
 namespace SecuringApplicationsAssignment.Domain.Models
 {
-    public class Student
+    public class Member
     {
-
-        public Guid Id { get; set; }
+        [Key]
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public string FirstName { get; set; }
 
         [Required]
         public string LastName { get; set; }
+
+        public string TeacherEmail { get; set; }
     }
 }

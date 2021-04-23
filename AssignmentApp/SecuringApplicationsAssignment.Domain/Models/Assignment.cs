@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SecuringApplicationsAssignment.Domain.Models
@@ -20,8 +21,11 @@ namespace SecuringApplicationsAssignment.Domain.Models
         [Required]
         public DateTime Deadline { get; set; }
 
-      //  [Required]
-        //Teacher ID
-       // public User User { get; set; }
+        //Teacher that uploaded the assignment
+        [Required]
+        public virtual Member Member { get; set; }
+
+        [ForeignKey("Memmber")]
+        public string MemberEmail { get; set; }
     }
 }

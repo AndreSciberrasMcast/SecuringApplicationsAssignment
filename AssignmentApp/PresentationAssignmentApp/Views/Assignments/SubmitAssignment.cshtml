@@ -12,21 +12,21 @@
 </div>
 <hr />
 <div class="row">
+    <div class="col-md-4 border border-dark">
+        <h2>@ViewBag.Assignment.Name</h2>
+        <h4>@ViewBag.Assignment.Description</h4>
+        <h4>@ViewBag.Assignment.Deadline</h4>
+    </div>
     <div class="col-md-6 border border-dark">
-        @{ var assignment = ViewBag.Assignment; }
-        <div>
-            <h3 class="p-1 text-capitalize">@assignment.Name</h3>
-            <h2 class="p-1">@assignment.Description</h2>
-            <h2 class="p-1">@assignment.Deadline</h2>
-        </div>
         <form asp-action="SubmitAssignment" enctype="multipart/form-data">
-            @Html.AntiForgeryToken();
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label for="fileInput" class="control-label">Upload pdf</label>
-                <input id="fileInput" name="file" class="form-control-file" type="file"/>
+                <input id="fileInput" name="file" class="form-control-file" type="file" />
                 <span name="file" class="text-danger"></span>
                 <!-- Asp for file-->
+               <input asp-for="Assignment" value="@ViewBag.Assignment" type="hidden" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />

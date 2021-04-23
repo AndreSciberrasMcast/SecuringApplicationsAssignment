@@ -5,10 +5,10 @@ using System.Text;
 
 namespace SecuringApplicationsAssignment.Domain.Interfaces
 {
-    public interface IStudentsRepository
+    public interface IMembersRepository
     {
+        void AddMember(Member m);
 
-        Guid AddStudent(Student s);
-
+        Member GetMember(string email);
     }
 }

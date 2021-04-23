@@ -15,16 +15,18 @@ namespace SecuringApplicationsAssignment.Domain.Models
         [Required]
         public string Data { get; set; }
 
-        //[Required]
-        //User or Teacher
-       // public User User { get; set; }
-
         [Required]
         public virtual Submission Submission { get; set; }
 
         [ForeignKey("Submission")]
-        public Guid submissionId { get; set; }
+        public Guid SubmissionFk { get; set; }
 
-        public Comment Reply { get; set; }
+        //public Comment Reply { get; set; }
+
+        [Required]
+        public virtual Member Member { get; set; }
+
+        [ForeignKey("Member")]
+        public string MemberEmail { get; set; }
     }
 }

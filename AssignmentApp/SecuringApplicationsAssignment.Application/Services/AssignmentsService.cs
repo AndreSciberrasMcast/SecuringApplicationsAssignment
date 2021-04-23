@@ -13,11 +13,17 @@ namespace SecuringApplicationsAssignment.Application.Services
     public class AssignmentsService : IAssignmentsService
     {
 
-        private IAssignmentsRepository _assignmentsRepository;
+        private readonly IAssignmentsRepository _assignmentsRepository;
+        private readonly IMembersRepository _membersRepository;
+        private readonly IMembersService _membersService;
+        private readonly ISubmissionsRepository _submissionsRepository;
 
-        public AssignmentsService(IAssignmentsRepository assignmentsRepository)
+        public AssignmentsService(IAssignmentsRepository assignmentsRepository, IMembersRepository membersRepository, ISubmissionsRepository submissionsRepository, IMembersService membersService)
         {
             _assignmentsRepository = assignmentsRepository;
+            _membersRepository = membersRepository;
+            _submissionsRepository = submissionsRepository;
+            _membersService = membersService;
         }
 
         public void AddAssignment(AssignmentViewmodel assignment)
@@ -26,10 +32,25 @@ namespace SecuringApplicationsAssignment.Application.Services
             {
                 Name = assignment.Name,
                 Description = assignment.Description,
-                Deadline = assignment.Deadline
+                Deadline = assignment.Deadline,
+                MemberEmail = assignment.Member.Email
             };
 
             _assignmentsRepository.AddAssignment(newAssignment);
+        }
+
+        public void AddSubmission(SubmissionViewModel submission)
+        {
+            Submission sub = new Submission();
+            sub.Assignment = _assignmentsRepository.GetAssignment(submission.Assignment.Id);
+            sub.Member = _membersRepository.GetMember(submission.Member.Email);
+            sub.FilePath = submission.FilePath;
+            _submissionsRepository.AddSubmission(sub);
+        }
+
+        public SubmissionViewModel GetSubmission(Guid assignmentId, string studentEmail)
+        {
+            SubmissionViewModel submission = _submissionsRepository.GetSubmission(assignmentId, studentEmail);
         }
 
         public void DeleteAssignment(Guid id)
@@ -48,6 +69,7 @@ namespace SecuringApplicationsAssignment.Application.Services
             assignment.Name = data.Name;
             assignment.Description = data.Description;
             assignment.Deadline = data.Deadline;
+            assignment.Member = _membersService.GetMember(data.MemberEmail);
             return assignment;
         }
 
@@ -59,7 +81,8 @@ namespace SecuringApplicationsAssignment.Application.Services
                            Id = p.Id,
                            Name = p.Name,
                            Description = p.Description,
-                           Deadline = p.Deadline
+                           Deadline = p.Deadline,
+                           Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.FirstName, LastName = p.Member.LastName }
                        };
 
             return list;

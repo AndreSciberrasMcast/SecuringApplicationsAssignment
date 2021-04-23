@@ -14,6 +14,9 @@ namespace SecuringApplicationsAssignment.Application.Interfaces
 
         void AddAssignment(AssignmentViewmodel assignment);
 
+        void AddSubmission(SubmissionViewModel submission);
+        SubmissionViewModel GetSubmission(Guid assignmentId, string studentEmail);
+
         void DeleteAssignment(Guid id);
     }
 }

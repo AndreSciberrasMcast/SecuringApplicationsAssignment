@@ -20,15 +20,23 @@ namespace SecuringApplicationsAssignment.Data.Context
 
         public DbSet<Submission> Submissions { get; set; }
 
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Member> Members { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Assignment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            modelBuilder.Entity<Comment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Comment>().HasOne(X => X.Submission).WithMany().OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<Submission>()
+                .HasOne(z => z.Assignment)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Submission>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+
+            //modelBuilder.Entity<Member>().HasOne(x => x.Email).WithOne().
         }
     }
 }

@@ -14,9 +14,9 @@ namespace PresentationAssignmentApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private IStudentsService _studentsService;
+        private IMembersService _studentsService;
 
-        public HomeController(ILogger<HomeController> logger, IStudentsService studentsService)
+        public HomeController(ILogger<HomeController> logger, IMembersService studentsService)
         {
             _logger = logger;
             _studentsService = studentsService;

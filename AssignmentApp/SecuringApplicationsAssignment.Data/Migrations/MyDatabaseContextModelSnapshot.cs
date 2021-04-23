@@ -33,11 +33,16 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MemberEmail")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberEmail");
 
                     b.ToTable("Assignments");
                 });
@@ -46,21 +51,46 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SubmissionId")
+                    b.Property<string>("MemberEmail")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("SubmissionFk")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubmissionId");
+                    b.HasIndex("MemberEmail");
+
+                    b.HasIndex("SubmissionFk");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Member", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeacherEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Submission", b =>
@@ -73,27 +103,59 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                     b.Property<Guid>("AssignmentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MemberEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignmentId");
+                    b.HasIndex("AssignmentId")
+                        .IsUnique();
+
+                    b.HasIndex("MemberEmail");
 
                     b.ToTable("Submissions");
                 });
 
+            modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Assignment", b =>
+                {
+                    b.HasOne("SecuringApplicationsAssignment.Domain.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberEmail")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Comment", b =>
                 {
-                    b.HasOne("SecuringApplicationsAssignment.Domain.Models.Submission", "Submission")
-                        .WithMany("Comments")
-                        .HasForeignKey("SubmissionId")
+                    b.HasOne("SecuringApplicationsAssignment.Domain.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberEmail")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SecuringApplicationsAssignment.Domain.Models.Submission", "Submission")
+                        .WithMany()
+                        .HasForeignKey("SubmissionFk")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("SecuringApplicationsAssignment.Domain.Models.Submission", b =>
                 {
                     b.HasOne("SecuringApplicationsAssignment.Domain.Models.Assignment", "Assignment")
+                        .WithOne()
+                        .HasForeignKey("SecuringApplicationsAssignment.Domain.Models.Submission", "AssignmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SecuringApplicationsAssignment.Domain.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("AssignmentId")
+                        .HasForeignKey("MemberEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

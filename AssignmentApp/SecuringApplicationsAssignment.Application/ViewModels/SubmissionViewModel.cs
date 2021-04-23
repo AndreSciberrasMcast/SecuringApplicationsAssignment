@@ -11,6 +11,8 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
 
         public AssignmentViewmodel Assignment { get; set; }
 
-        public List<CommentViewModel> Comments { get; set; }
+        public string FilePath { get; set; }
+
+        public MemberViewModel Member { get; set; }
     }
 }

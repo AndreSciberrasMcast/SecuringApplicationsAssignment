@@ -26,6 +26,7 @@
                         }
                         @if (User.IsInRole("Student"))
                         {
+                            @if(p.)
                             <a href="/Assignments/SubmitAssignment?id=@p.Id" class="btn btn-info">Submit</a>
                             
                             <!-- If assignment has been submitted, view Submission-->

@@ -18,11 +18,14 @@ namespace SecuringApplicationsAssignment.Domain.Models
         [ForeignKey("Assignment")]
         public Guid AssignmentId { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        [Required]
+        public string FilePath { get; set; }
 
-       // [Required]
-        //Student ID
-      //  public User User { get; set; }
+        [Required]
+        public virtual Member Member { get; set; }
+
+        [ForeignKey("Member")]
+        public string MemberEmail { get; set; }
 
     }
 }
