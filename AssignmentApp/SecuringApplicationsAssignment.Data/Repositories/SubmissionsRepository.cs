@@ -22,15 +22,20 @@ namespace SecuringApplicationsAssignment.Data.Repositories
             return _context.Submissions.SingleOrDefault(x => x.Id == assignmentId && x.Member.Email == studentEmail);
         }
 
-        public IQueryable<Submission> GetSubmissions(Guid assignmentID)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddSubmission(Submission s)
         {
             _context.Submissions.Add(s);
             _context.SaveChanges();
+        }
+
+        public IQueryable<Submission> GetSubmissionsForASsignment(Guid assignmentID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Submission> GetSubmissionsByStudent(string email)
+        {
+            return _context.Submissions.Where(x => x.Member.Email == email);
         }
     }
 }

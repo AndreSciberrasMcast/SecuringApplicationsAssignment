@@ -1,4 +1,4 @@
-﻿@model SecuringApplicationsAssignment.Application.ViewModels.MemberViewModel
+﻿@model AddStudentModel
 
 @{
     ViewData["Title"] = "AddStudent";
@@ -15,19 +15,19 @@
         <form asp-action="AddStudent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="MemberModel.Email" class="control-label"></label>
+                <input asp-for="MemberModel.Email" class="form-control" />
+                <span asp-validation-for="MemberModel.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="MemberModel.FirstName" class="control-label">First Name</label>
+                <input asp-for="MemberModel.FirstName" class="form-control" />
+                <span asp-validation-for="MemberModel.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="MemberModel.LastName" class="control-label">Last Name</label>
+                <input asp-for="MemberModel.LastName" class="form-control" />
+                <span asp-validation-for="MemberModel.LastName" class="text-danger"></span>
             </div>
             
             <div class="form-group">

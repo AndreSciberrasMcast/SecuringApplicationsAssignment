@@ -26,11 +26,34 @@
                         }
                         @if (User.IsInRole("Student"))
                         {
-                            @if(p.)
-                            <a href="/Assignments/SubmitAssignment?id=@p.Id" class="btn btn-info">Submit</a>
-                            
-                            <!-- If assignment has been submitted, view Submission-->
-                            <a href="/Assignments/ViewSubmission?id=@p.Id" class="btn btn-info">View Submission</a>
+
+                            var wasSubmitted = false;
+
+                            foreach (var s in ViewBag.Submissions)
+                            {
+                                @if (p.Id == s.Assignment.Id)
+                                {
+                                    wasSubmitted = true;
+                                }
+                            }
+
+                            @if (!wasSubmitted && p.Deadline > DateTime.Now)
+                            {
+                                <a href="/Assignments/SubmitAssignment?id=@p.Id" class="btn btn-info">Submit</a>
+                            }
+                            else
+                            {
+                                <!-- If assignment has been submitted, view Submission-->
+                                if (wasSubmitted)
+                                {
+                                    <a href="/Assignments/ViewSubmission?id=@p.Id" class="btn btn-info">View Submission</a>
+                                }
+                                else
+                                {
+                                    <h4>Deadline has passed, you cannot submit</h4>
+                                }
+
+                            }
                         }
 
 

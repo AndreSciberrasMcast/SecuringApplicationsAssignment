@@ -49,8 +49,28 @@ namespace SecuringApplicationsAssignment.Application.Services
         }
 
         public SubmissionViewModel GetSubmission(Guid assignmentId, string studentEmail)
-        {
-            SubmissionViewModel submission = _submissionsRepository.GetSubmission(assignmentId, studentEmail);
+        { 
+            var data = _submissionsRepository.GetSubmission(assignmentId, studentEmail);
+
+            MemberViewModel member = new MemberViewModel();
+            member.Email = data.Member.Email;
+            member.FirstName = data.Member.FirstName;
+            member.LastName = data.Member.LastName;
+            member.TeacherEmail = data.Member.TeacherEmail;
+
+            AssignmentViewmodel assignment = new AssignmentViewmodel();
+            assignment.Id = data.Assignment.Id;
+            assignment.Name = data.Assignment.Name;
+            assignment.Description = data.Assignment.Description;
+            assignment.Deadline = data.Assignment.Deadline;
+            
+
+            SubmissionViewModel submission = new SubmissionViewModel();
+            submission.Member = member;
+            submission.FilePath = data.FilePath;
+            submission.Assignment = assignment;
+            
+            return submission;
         }
 
         public void DeleteAssignment(Guid id)
@@ -85,6 +105,19 @@ namespace SecuringApplicationsAssignment.Application.Services
                            Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.FirstName, LastName = p.Member.LastName }
                        };
 
+            return list;
+        }
+
+        public IQueryable<SubmissionViewModel> GetSubmissions(string email)
+        {
+            var list = from p in _submissionsRepository.GetSubmissionsByStudent(email)
+                       select new SubmissionViewModel()
+                       {
+                           Id = p.Id,
+                           FilePath = p.FilePath,
+                           Assignment = new AssignmentViewmodel() { Id = p.Assignment.Id, Name = p.Assignment.Name, Description = p.Assignment.Description, Deadline = p.Assignment.Deadline },
+                           Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.LastName, TeacherEmail = p.Member.TeacherEmail }
+                       };
             return list;
         }
     }

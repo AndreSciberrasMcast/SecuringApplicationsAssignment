@@ -8,7 +8,9 @@ namespace SecuringApplicationsAssignment.Domain.Interfaces
 {
     public interface ISubmissionsRepository
     {
-        IQueryable<Submission> GetSubmissions(Guid assignmentID);
+        IQueryable<Submission> GetSubmissionsForASsignment(Guid assignmentID);
+
+        IQueryable<Submission> GetSubmissionsByStudent(string email);
 
         Submission GetSubmission(Guid assignmentID, string userEmail);
 

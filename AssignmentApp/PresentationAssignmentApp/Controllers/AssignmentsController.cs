@@ -49,6 +49,10 @@ namespace PresentationAssignmentApp.Controllers
                         assignments.Add(a);
                     }
                 }
+
+                var submissions = _assignmentsService.GetSubmissions(User.Identity.Name);
+
+                ViewBag.Submissions = submissions;
                 return View(assignments);
             }
 
@@ -153,7 +157,11 @@ namespace PresentationAssignmentApp.Controllers
                     _assignmentsService.AddAssignment(data);
                     ViewData["info"] = "Assignment added";
                 }
-                return View();
+                else
+                {
+                    return View();
+                }
+                
             }
             catch(Exception ex)
             {
