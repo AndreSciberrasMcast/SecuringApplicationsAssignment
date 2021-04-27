@@ -22,18 +22,20 @@
                         @if (User.IsInRole("Teacher"))
                         {
                             <a href="/Assignments/Delete?id=@p.Id" class="btn btn-danger">Delete</a>
-                            <a href="/Assignments/ViewSubmissions?id=@p.Id" class="btn btn-success">View Submissions</a>
+                            <a href="/Assignments/ViewSubmissions?assigmmentId=@p.Id" class="btn btn-success">View Submissions</a>
                         }
                         @if (User.IsInRole("Student"))
                         {
 
                             var wasSubmitted = false;
+                            var submissionId = new Guid();
 
                             foreach (var s in ViewBag.Submissions)
                             {
                                 @if (p.Id == s.Assignment.Id)
                                 {
                                     wasSubmitted = true;
+                                    submissionId = s.Id;
                                 }
                             }
 
@@ -46,7 +48,7 @@
                                 <!-- If assignment has been submitted, view Submission-->
                                 if (wasSubmitted)
                                 {
-                                    <a href="/Assignments/ViewSubmission?id=@p.Id" class="btn btn-info">View Submission</a>
+                                    <a href="/Assignments/ViewSubmission?id=@submissionId" class="btn btn-info">View Submission</a>
                                 }
                                 else
                                 {

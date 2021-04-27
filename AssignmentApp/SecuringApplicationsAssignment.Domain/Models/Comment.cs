@@ -18,6 +18,9 @@ namespace SecuringApplicationsAssignment.Domain.Models
         [Required]
         public virtual Submission Submission { get; set; }
 
+        [Required]
+        public DateTime Time { get; set; }
+
         [ForeignKey("Submission")]
         public Guid SubmissionFk { get; set; }
 

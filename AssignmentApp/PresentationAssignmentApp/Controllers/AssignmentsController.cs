@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PresentationAssignmentApp.ActionFilters;
+using PresentationAssignmentApp.Helpers;
 using PresentationAssignmentApp.Models;
 using SecuringApplicationsAssignment.Application.Interfaces;
 using SecuringApplicationsAssignment.Application.ViewModels;
@@ -29,7 +31,7 @@ namespace PresentationAssignmentApp.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            
+
             var list = _assignmentsService.GetAssignments();
 
             //AssignmentViewmodel assignment = _assignmentsService.GetAssignment(new Guid("F73ECF10-167C-4201-B52D-4EDC7776ED36"));
@@ -63,11 +65,13 @@ namespace PresentationAssignmentApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public IActionResult SubmitAssignment(Guid id)
+        public IActionResult SubmitAssignment(string id)
         {
+            Guid decryptedId = Guid.Parse(CryptographicHelper.SymmetricDecrypt(id));
+
             CookieOptions cookieOptions = new CookieOptions();
             Response.Cookies.Append("Assignment", id.ToString(), cookieOptions);
-            var assignment = _assignmentsService.GetAssignment(id);
+            var assignment = _assignmentsService.GetAssignment(decryptedId);
             
             ViewBag.Assignment = assignment;
 
@@ -83,6 +87,7 @@ namespace PresentationAssignmentApp.Controllers
             var assignment = _assignmentsService.GetAssignment(Guid.Parse(Request.Cookies["Assignment"]));
 
             ViewBag.Assignment = assignment;
+
 
             if (file != null)
             {
@@ -146,6 +151,7 @@ namespace PresentationAssignmentApp.Controllers
 
         [Authorize(Roles = "Teacher")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(AssignmentViewmodel data)
         {
             try
@@ -190,5 +196,61 @@ namespace PresentationAssignmentApp.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        [Authorize]
+        [ValidateUserActionFilter]
+        public IActionResult ViewSubmission(string id)
+        {
+            Guid decryptedId = Guid.Parse(CryptographicHelper.SymmetricDecrypt(id));
+
+            ViewSubmissionViewModel submission = new ViewSubmissionViewModel();
+            submission.Submission = _assignmentsService.GetSubmission(decryptedId);
+           // CookieOptions cookieOptions = new CookieOptions();
+           // Response.Cookies.Append("Submission", submission.Submission.Id.ToString(), cookieOptions);
+
+            var comments = _assignmentsService.GetComments(decryptedId);
+
+            ViewBag.Comments = comments;
+            return View(submission);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult ViewSubmission()
+        {
+            //var comments = _assignmentsService.GetComments(Guid.Parse(Request.Cookies["Submission"]));
+            return View();
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public IActionResult ViewSubmissions(Guid assigmmentId)
+        {
+            var list = _assignmentsService.GetSubmissions(assigmmentId);
+            return View(list);
+        }
+
+        [Authorize]
+        [CommentValidation]
+        public IActionResult AddComment(ViewSubmissionViewModel data)
+        {
+
+            CommentViewModel comment = new CommentViewModel();
+            comment.Data = data.Comment.Data;
+            comment.Member = _membersService.GetMember(User.Identity.Name);
+            comment.Submission = _assignmentsService.GetSubmission(data.Submission.Id);
+            comment.Time = DateTime.Now;
+            _assignmentsService.AddComment(comment);
+
+            ViewSubmissionViewModel toReturn = new ViewSubmissionViewModel();
+            toReturn.Submission = comment.Submission;
+            
+            var comments = _assignmentsService.GetComments(toReturn.Submission.Id);
+            ViewBag.Comments = comments;
+
+            return View("ViewSubmission", toReturn);
+        }
+
     }
+
 }

@@ -27,6 +27,8 @@ namespace SecuringApplicationsAssignment.Data.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Assignment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Comment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+
             modelBuilder.Entity<Comment>().HasOne(X => X.Submission).WithMany().OnDelete(DeleteBehavior.NoAction);
             
             modelBuilder.Entity<Submission>()

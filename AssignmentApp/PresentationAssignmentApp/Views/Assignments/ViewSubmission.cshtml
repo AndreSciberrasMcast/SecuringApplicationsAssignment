@@ -1,0 +1,40 @@
+﻿@model SecuringApplicationsAssignment.Application.ViewModels.ViewSubmissionViewModel
+
+@{
+    ViewData["Title"] = "ViewSubmission";
+}
+
+
+<div class="mt-5">
+    <h4>Submission for @Model.Submission.Assignment.Name by @Model.Submission.Member.FirstName @Model.Submission.Member.LastName</h4>
+    <hr />
+    <dl class="row">
+        <div class="col-4">
+            <button class="btn btn-primary">Download file</button>
+        </div>
+        <div class="col-8">
+            <form asp-action="AddComment">
+                @Html.AntiForgeryToken()
+                @foreach (var comment in ViewBag.Comments)
+                {
+                    <div class="row mb-5 ">
+                        <div class="col-3">
+                            <p>@comment.Member.FirstName @comment.Member.LastName</p>
+                            <p>@comment.Time</p>
+                        </div>
+                        <div class="col-6">
+                            @comment.Data
+                        </div>
+                        <hr />
+                    </div>
+                }
+                
+                <input asp-for="Submission.Id" type="hidden" value="@Model.Submission.Id"/>
+                <input asp-for="Comment.Data" type="text" value="Enter a comment" />
+                <button type="submit" class="btn btn-info">Add comment</button>
+            </form>
+            
+        </div>
+        
+    </dl>
+</div>

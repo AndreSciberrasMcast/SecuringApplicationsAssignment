@@ -14,7 +14,13 @@ namespace SecuringApplicationsAssignment.Domain.Interfaces
 
         Submission GetSubmission(Guid assignmentID, string userEmail);
 
+        Submission GetSubmission(Guid submissionID);
+
         void AddSubmission(Submission s);
+
+        IQueryable<Comment> GetComments(Guid Id);
+
+        void AddComment(Comment comment);
 
     }
 }

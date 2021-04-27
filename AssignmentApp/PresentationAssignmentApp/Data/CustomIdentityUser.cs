@@ -9,9 +9,6 @@ namespace PresentationAssignmentApp.Data
 {
     public class ApplicationUser: IdentityUser
     {
-        [Required]
-        public bool isTeacher { get; set; }
-
-        public ApplicationUser assignedTeacher { get; set; }
+        
     }
 }

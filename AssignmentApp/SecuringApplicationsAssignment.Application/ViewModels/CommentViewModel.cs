@@ -10,6 +10,8 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
 
         public string Data { get; set; }
 
+        public DateTime Time { get; set; }
+
         public SubmissionViewModel Submission { get; set; }
 
         public MemberViewModel Member { get; set; }

@@ -58,12 +58,12 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max 20 characters long.", MinimumLength = 6 )]
-            [RegularExpression("^([a-z]|[A-Z]|[0-9]){6,20}$", ErrorMessage = "Invalid Password")]
+            //[RegularExpression("^([a-z]|[A-Z]|[0-9]){6,20}$", ErrorMessage = "Invalid Password")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [RegularExpression("^([a-z]|[A-Z]|[0-9]){6,20}$", ErrorMessage = "Invalid Password")]
+            //[RegularExpression("^([a-z]|[A-Z]|[0-9]){6,20}$", ErrorMessage = "Invalid Password")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

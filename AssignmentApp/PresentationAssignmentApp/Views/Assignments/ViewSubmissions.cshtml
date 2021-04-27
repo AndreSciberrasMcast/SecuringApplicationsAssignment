@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SecuringApplicationsAssignment.Application.ViewModels.SubmissionViewModel>
+
+@{
+    ViewData["Title"] = "ViewSubmissions";
+}
+
+<div class="jumbotron jumbotron-fluid text-Center">
+    <div class="container">
+        <h1 class="display-4">Submissions</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-5">
+        @foreach (var p in Model)
+        {
+            <div class="col-3 m-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@p.Member.FirstName @p.Member.LastName</h5>
+                        <a href="/Assignments/ViewSubmission?id=@p.Id" class="btn btn-info">View Submission</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

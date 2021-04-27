@@ -10,11 +10,11 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Name is not valid. Use only letters")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Surname is required")]
         [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Surname is not valid. Use only letters")]
         public string LastName { get; set; }
 

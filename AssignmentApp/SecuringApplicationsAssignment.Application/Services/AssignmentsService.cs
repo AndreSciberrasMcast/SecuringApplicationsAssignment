@@ -39,15 +39,7 @@ namespace SecuringApplicationsAssignment.Application.Services
             _assignmentsRepository.AddAssignment(newAssignment);
         }
 
-        public void AddSubmission(SubmissionViewModel submission)
-        {
-            Submission sub = new Submission();
-            sub.Assignment = _assignmentsRepository.GetAssignment(submission.Assignment.Id);
-            sub.Member = _membersRepository.GetMember(submission.Member.Email);
-            sub.FilePath = submission.FilePath;
-            _submissionsRepository.AddSubmission(sub);
-        }
-
+        /*
         public SubmissionViewModel GetSubmission(Guid assignmentId, string studentEmail)
         { 
             var data = _submissionsRepository.GetSubmission(assignmentId, studentEmail);
@@ -71,7 +63,7 @@ namespace SecuringApplicationsAssignment.Application.Services
             submission.Assignment = assignment;
             
             return submission;
-        }
+        }*/
 
         public void DeleteAssignment(Guid id)
         {
@@ -108,6 +100,15 @@ namespace SecuringApplicationsAssignment.Application.Services
             return list;
         }
 
+        public void AddSubmission(SubmissionViewModel submission)
+        {
+            Submission sub = new Submission();
+            sub.Assignment = _assignmentsRepository.GetAssignment(submission.Assignment.Id);
+            sub.Member = _membersRepository.GetMember(submission.Member.Email);
+            sub.FilePath = submission.FilePath;
+            _submissionsRepository.AddSubmission(sub);
+        }
+
         public IQueryable<SubmissionViewModel> GetSubmissions(string email)
         {
             var list = from p in _submissionsRepository.GetSubmissionsByStudent(email)
@@ -120,5 +121,72 @@ namespace SecuringApplicationsAssignment.Application.Services
                        };
             return list;
         }
+
+        public IQueryable<SubmissionViewModel> GetSubmissions(Guid assignmentId)
+        {
+            var list = from p in _submissionsRepository.GetSubmissionsForASsignment(assignmentId)
+                       select new SubmissionViewModel()
+                       {
+                           Id = p.Id,
+                           FilePath = p.FilePath,
+                           Assignment = new AssignmentViewmodel() { Id = p.Assignment.Id, Deadline = p.Assignment.Deadline, Description = p.Assignment.Description, Name = p.Assignment.Name },
+                           Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.FirstName, LastName = p.Member.LastName, TeacherEmail = p.Member.TeacherEmail}
+                       };
+
+            return list;
+          
+        }
+
+        public SubmissionViewModel GetSubmission(Guid assignmentId, string email)
+        {
+            
+            Submission sub = _submissionsRepository.GetSubmission(assignmentId, email);
+            SubmissionViewModel submission = new SubmissionViewModel();
+            submission.Id = sub.Id;
+            submission.FilePath = sub.FilePath;
+            submission.Assignment = GetAssignment(sub.AssignmentId);
+            submission.Member = _membersService.GetMember(sub.MemberEmail);
+            return submission;
+
+        }
+
+        public SubmissionViewModel GetSubmission(Guid id)
+        {
+            Submission sub = _submissionsRepository.GetSubmission(id);
+
+            SubmissionViewModel submission = new SubmissionViewModel();
+            submission.Id = sub.Id;
+            submission.FilePath = sub.FilePath;
+            submission.Member = _membersService.GetMember(sub.MemberEmail);
+            submission.Assignment = GetAssignment(sub.AssignmentId);
+            return submission;
+        }
+
+        public IQueryable<CommentViewModel> GetComments(Guid id)
+        {
+            var list = from p in _submissionsRepository.GetComments(id)
+                       select new CommentViewModel()
+                       {
+                           Id = p.Id,
+                           Data = p.Data,
+                           Time = p.Time,
+                           Submission = GetSubmission(id),
+                           Member = _membersService.GetMember(p.MemberEmail)
+                       };
+
+            return list;
+        }
+
+        public void AddComment(CommentViewModel comment)
+        {
+            Comment comm = new Comment();
+            comm.Data = comment.Data;
+            comm.Time = comment.Time;
+            comm.MemberEmail = comment.Member.Email;
+            comm.SubmissionFk = comment.Submission.Id;
+            _submissionsRepository.AddComment(comm);
+        }
+
+       
     }
 }

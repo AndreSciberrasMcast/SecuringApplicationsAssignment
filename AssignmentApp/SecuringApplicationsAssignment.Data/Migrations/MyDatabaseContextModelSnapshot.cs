@@ -51,7 +51,8 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -62,6 +63,9 @@ namespace SecuringApplicationsAssignment.Data.Migrations
 
                     b.Property<Guid>("SubmissionFk")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

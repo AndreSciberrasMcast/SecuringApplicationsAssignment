@@ -35,7 +35,7 @@ namespace PresentationAssignmentApp
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedEmail = false;
                 options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 6, 0);
                 options.Password.RequiredLength = 6;
 
@@ -47,7 +47,7 @@ namespace PresentationAssignmentApp
             services.Configure<IdentityOptions>(
                 options =>
                 {
-                    options.SignIn.RequireConfirmedEmail = true;
+                    options.SignIn.RequireConfirmedEmail = false ;
 
                 });
 
