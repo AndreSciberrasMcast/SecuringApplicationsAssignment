@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using PresentationAssignmentApp.Helpers;
 using SecuringApplicationsAssignment.Application.Interfaces;
 using System;
 
@@ -14,7 +15,7 @@ namespace PresentationAssignmentApp.ActionFilters
 
             try
             {
-                var id = new Guid(context.ActionArguments["id"].ToString());
+                var id = Guid.Parse(CryptographicHelper.SymmetricDecrypt(context.ActionArguments["id"].ToString()));
                 var loggedInUser = context.HttpContext.User.Identity.Name;
 
                 IAssignmentsService assignmentsService = (IAssignmentsService)context.HttpContext.RequestServices.GetService(typeof(IAssignmentsService));

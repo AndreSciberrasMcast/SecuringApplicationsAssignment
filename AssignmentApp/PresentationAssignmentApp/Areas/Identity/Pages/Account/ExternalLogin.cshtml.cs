@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PresentationAssignmentApp.Data;
+using PresentationAssignmentApp.Helpers;
 using SecuringApplicationsAssignment.Application.Interfaces;
 
 namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
@@ -145,11 +146,18 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
+
+                        Tuple<string, string> keys = CryptographicHelper.GenerateAsymmetricKeys();
+
+
                         _membersService.AddMember(new SecuringApplicationsAssignment.Application.ViewModels.MemberViewModel
                         {
                             Email = Input.Email,
                             FirstName = Input.FirstName,
-                            LastName = Input.LastName
+                            LastName = Input.LastName,
+                            //Generating Keys for teacher
+                            PrivateKey = CryptographicHelper.SymmetricEncrypt(keys.Item2),
+                            PublicKey = keys.Item1
                         }
                     );
 

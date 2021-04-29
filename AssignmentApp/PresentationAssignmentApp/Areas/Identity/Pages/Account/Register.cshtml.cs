@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PresentationAssignmentApp.Data;
+using PresentationAssignmentApp.Helpers;
 using SecuringApplicationsAssignment.Application.Interfaces;
 
 namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
@@ -92,13 +93,19 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    Tuple<string, string> keys = CryptographicHelper.GenerateAsymmetricKeys();
+
                     _membersService.AddMember(
                         new SecuringApplicationsAssignment.Application.ViewModels.MemberViewModel()
                         {
                             Email = Input.Email,
                             FirstName = Input.FirstName,
-                            LastName = Input.LastName
-                        });
+                            LastName = Input.LastName,
+                            //Generating the private key to be 
+
+                            PrivateKey = CryptographicHelper.SymmetricEncrypt(keys.Item2),
+                            PublicKey = keys.Item1
+                        }); 
 
                     _logger.LogInformation("User created a new account with password.");
 

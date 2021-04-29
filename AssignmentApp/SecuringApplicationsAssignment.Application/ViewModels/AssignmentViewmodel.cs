@@ -9,6 +9,8 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
     {
        
         public Guid Id { get; set; }
+
+        public string EncryptedId { get; set; }
         
         [Required(ErrorMessage = "Please enter a name")]
         public string Name { get; set; }

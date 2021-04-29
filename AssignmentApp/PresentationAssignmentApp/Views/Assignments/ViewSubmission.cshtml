@@ -1,5 +1,6 @@
 ﻿@model SecuringApplicationsAssignment.Application.ViewModels.ViewSubmissionViewModel
-
+@using PresentationAssignmentApp.Helpers
+@using System.Web
 @{
     ViewData["Title"] = "ViewSubmission";
 }
@@ -10,7 +11,8 @@
     <hr />
     <dl class="row">
         <div class="col-4">
-            <button class="btn btn-primary">Download file</button>
+            <a href="/Assignments/DownloadFile?id=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(Model.Submission.Id.ToString()))"class="btn btn-primary">Download file</a>
+            <a href="/Assignments/ViewFile?id=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(Model.Submission.Id.ToString()))" class="btn btn-success">View File</a>
         </div>
         <div class="col-8">
             <form asp-action="AddComment">
@@ -28,13 +30,13 @@
                         <hr />
                     </div>
                 }
-                
-                <input asp-for="Submission.Id" type="hidden" value="@Model.Submission.Id"/>
+
+                <input asp-for="Submission.Id" type="hidden" value="@Model.Submission.Id" />
                 <input asp-for="Comment.Data" type="text" value="Enter a comment" />
                 <button type="submit" class="btn btn-info">Add comment</button>
             </form>
-            
+
         </div>
-        
+
     </dl>
 </div>

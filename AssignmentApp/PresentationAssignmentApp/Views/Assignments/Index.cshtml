@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<SecuringApplicationsAssignment.Application.ViewModels.AssignmentViewmodel> 
+@using PresentationAssignmentApp.Helpers
+@using System.Web 
 @{
     ViewData["Title"] = "Index";
 }
@@ -10,6 +12,11 @@
 </div>
 
 <div class="container">
+    @if (User.IsInRole("Teacher"))
+    {
+        <a href="/Assignments/Create" class="btn btn-warning">Add assignment</a>
+    }
+
     <div class="row mt-5">
         @foreach (var p in Model)
         {
@@ -21,8 +28,8 @@
                         <p class="card-text">@p.Deadline.</p>
                         @if (User.IsInRole("Teacher"))
                         {
-                            <a href="/Assignments/Delete?id=@p.Id" class="btn btn-danger">Delete</a>
-                            <a href="/Assignments/ViewSubmissions?assigmmentId=@p.Id" class="btn btn-success">View Submissions</a>
+                            <a href="/Assignments/Delete?id=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(p.Id.ToString()))" class="btn btn-danger">Delete</a>
+                            <a href="/Assignments/ViewSubmissions?assigmmentId=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(p.Id.ToString()))" class="btn btn-success">View Submissions</a>
                         }
                         @if (User.IsInRole("Student"))
                         {
@@ -41,14 +48,14 @@
 
                             @if (!wasSubmitted && p.Deadline > DateTime.Now)
                             {
-                                <a href="/Assignments/SubmitAssignment?id=@p.Id" class="btn btn-info">Submit</a>
+                                <a href="/Assignments/SubmitAssignment?id=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(p.Id.ToString()))" class="btn btn-info">Submit</a>
                             }
                             else
                             {
                                 <!-- If assignment has been submitted, view Submission-->
                                 if (wasSubmitted)
                                 {
-                                    <a href="/Assignments/ViewSubmission?id=@submissionId" class="btn btn-info">View Submission</a>
+                                    <a href="/Assignments/ViewSubmission?id=@HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(submissionId.ToString()))" class="btn btn-info">View Submission</a>
                                 }
                                 else
                                 {

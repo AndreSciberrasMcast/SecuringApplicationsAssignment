@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,11 +35,14 @@ namespace PresentationAssignmentApp.Controllers
         {
 
             var list = _assignmentsService.GetAssignments();
-
-            //AssignmentViewmodel assignment = _assignmentsService.GetAssignment(new Guid("F73ECF10-167C-4201-B52D-4EDC7776ED36"));
-
-
             List <AssignmentViewmodel> assignments = new List<AssignmentViewmodel>();
+            /*
+            foreach(AssignmentViewmodel assignment in list)
+            {
+                assignment.EncryptedId = HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(assignment.Id.ToString()));
+                assignments.Add(assignment);
+            }
+            */
 
             if (User.IsInRole("Student"))
             {
@@ -67,10 +72,11 @@ namespace PresentationAssignmentApp.Controllers
         [Authorize(Roles = "Student")]
         public IActionResult SubmitAssignment(string id)
         {
-            Guid decryptedId = Guid.Parse(CryptographicHelper.SymmetricDecrypt(id));
+            Guid decryptedId = Guid.Parse(
+                HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)));
 
             CookieOptions cookieOptions = new CookieOptions();
-            Response.Cookies.Append("Assignment", id.ToString(), cookieOptions);
+            Response.Cookies.Append("Assignment", id, cookieOptions);
             var assignment = _assignmentsService.GetAssignment(decryptedId);
             
             ViewBag.Assignment = assignment;
@@ -84,7 +90,7 @@ namespace PresentationAssignmentApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SubmitAssignment(IFormFile file)
         {
-            var assignment = _assignmentsService.GetAssignment(Guid.Parse(Request.Cookies["Assignment"]));
+            var assignment = _assignmentsService.GetAssignment(Guid.Parse(CryptographicHelper.SymmetricDecrypt(Request.Cookies["Assignment"])));
 
             ViewBag.Assignment = assignment;
 
@@ -106,19 +112,20 @@ namespace PresentationAssignmentApp.Controllers
                     string uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
                     MemoryStream ms = new MemoryStream();
+                    
                     stream.CopyTo(ms);
                     ms.Position = 0;
 
 
-                    System.IO.File.WriteAllBytes(absolutePath + uniqueName, ms.ToArray());
+                    System.IO.File.WriteAllBytes(absolutePath + uniqueName, CryptographicHelper.SymmetricEncrypt(ms.ToArray()));
 
                     //Create a submission to be save to db
                     SubmissionViewModel submission = new SubmissionViewModel();
                     submission.Member = _membersService.GetMember(User.Identity.Name);
-                    submission.Assignment = _assignmentsService.GetAssignment(Guid.Parse(Request.Cookies["Assignment"]));
+                    submission.Assignment = _assignmentsService.GetAssignment(assignment.Id);
                     
                     //Maybe encrypt
-                    submission.FilePath = absolutePath;
+                    submission.FilePath = absolutePath + uniqueName;
                     _assignmentsService.AddSubmission(submission);
 
                     TempData["info"] = "File accepted";
@@ -145,7 +152,7 @@ namespace PresentationAssignmentApp.Controllers
         [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
-            //Implement validation for deadline 
+            
             return View();
         }
 
@@ -181,12 +188,13 @@ namespace PresentationAssignmentApp.Controllers
         }
 
         [Authorize(Roles = "Teacher")]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(string id)
         {
-
             try
             {
-                _assignmentsService.DeleteAssignment(id);
+                Guid decryptedId = Guid.Parse(
+                    HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)));
+                _assignmentsService.DeleteAssignment(decryptedId);
                 ViewData["info"] = "Assignment deleted";
             }catch(Exception ex)
             {
@@ -202,12 +210,13 @@ namespace PresentationAssignmentApp.Controllers
         [ValidateUserActionFilter]
         public IActionResult ViewSubmission(string id)
         {
-            Guid decryptedId = Guid.Parse(CryptographicHelper.SymmetricDecrypt(id));
+            Guid decryptedId = Guid.Parse(
+                HttpUtility.UrlDecode(
+                    CryptographicHelper.SymmetricDecrypt(id)));
 
             ViewSubmissionViewModel submission = new ViewSubmissionViewModel();
             submission.Submission = _assignmentsService.GetSubmission(decryptedId);
-           // CookieOptions cookieOptions = new CookieOptions();
-           // Response.Cookies.Append("Submission", submission.Submission.Id.ToString(), cookieOptions);
+        
 
             var comments = _assignmentsService.GetComments(decryptedId);
 
@@ -219,14 +228,18 @@ namespace PresentationAssignmentApp.Controllers
         [Authorize]
         public IActionResult ViewSubmission()
         {
-            //var comments = _assignmentsService.GetComments(Guid.Parse(Request.Cookies["Submission"]));
+            
             return View();
         }
 
         [Authorize(Roles = "Teacher")]
-        public IActionResult ViewSubmissions(Guid assigmmentId)
+        public IActionResult ViewSubmissions(string assigmmentId)
         {
-            var list = _assignmentsService.GetSubmissions(assigmmentId);
+            Guid decryptedAssignmentId = Guid.Parse(
+                HttpUtility.UrlDecode(
+                    CryptographicHelper.SymmetricDecrypt(assigmmentId)));
+
+            var list = _assignmentsService.GetSubmissions(decryptedAssignmentId);
             return View(list);
         }
 
@@ -250,6 +263,45 @@ namespace PresentationAssignmentApp.Controllers
 
             return View("ViewSubmission", toReturn);
         }
+
+
+        [Authorize]
+        public IActionResult ViewFile(string id)
+        {
+            string filepath = _assignmentsService.GetSubmission(Guid.Parse(HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)))).FilePath;
+
+            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+
+            MemoryStream ms = new MemoryStream();
+
+            fs.CopyTo(ms);
+
+            byte[] encryptedAssignment = ms.ToArray();
+
+            byte[] decryptedAssignment = CryptographicHelper.SymmetricDecrypt(encryptedAssignment);
+
+     
+            return File(decryptedAssignment, "application/pdf");
+        }
+
+        public async Task<IActionResult> DownloadFile(string id)
+        {
+            string filepath = _assignmentsService.GetSubmission(Guid.Parse(HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)))).FilePath;
+
+            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+
+            MemoryStream ms = new MemoryStream();
+
+            fs.CopyTo(ms);
+
+            byte[] encryptedAssignment = ms.ToArray();
+
+            byte[] decryptedAssignment = CryptographicHelper.SymmetricDecrypt(encryptedAssignment);
+
+
+            return File(decryptedAssignment, "application/pdf");
+        }
+       
 
     }
 

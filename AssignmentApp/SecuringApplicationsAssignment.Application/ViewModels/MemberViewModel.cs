@@ -19,5 +19,9 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
         public string LastName { get; set; }
 
         public string TeacherEmail { get; set; }
+
+        public string PrivateKey { get; set; }
+
+        public string PublicKey { get; set; }
     }
 }

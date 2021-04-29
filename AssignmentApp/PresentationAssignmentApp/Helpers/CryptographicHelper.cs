@@ -156,5 +156,82 @@ namespace PresentationAssignmentApp.Helpers
 
             return new Tuple<byte[], byte[]>(key, iv);
         }
+
+        public static Tuple<string, string> GenerateAsymmetricKeys()
+        {
+            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
+
+            string publicKey = provider.ToXmlString(false);
+
+            string privateKey = provider.ToXmlString(true);
+
+            return new Tuple<string, string>(publicKey, privateKey);
+        }
+
+        public static byte[] AsymmetricEncrypt(byte[] data, string publicKey)
+        {
+            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
+
+            provider.FromXmlString(publicKey);
+
+            byte[] cipher = provider.Encrypt(data, RSAEncryptionPadding.Pkcs1);
+
+            return cipher;
+        }
+
+        public static byte[] AsymmetricDecrypt(byte[] data, string privateKey)
+        {
+            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
+
+            provider.FromXmlString(privateKey);
+
+            byte[] cipher = provider.Decrypt(data, RSAEncryptionPadding.Pkcs1);
+
+            return cipher;
+        }
+
+        public static byte[] GenerateSignature(byte[] objectToSign, string privateKey)
+        { 
+            RSA rsa = RSA.Create();
+            rsa.FromXmlString(privateKey);
+
+            RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(rsa);
+
+            signatureFormatter.SetHashAlgorithm("SHA1");
+
+            byte[] signedHashValue = signatureFormatter.CreateSignature(objectToSign);
+
+            return signedHashValue;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signedHashValue"></param>
+        /// <param name="objectToVerify">
+        /// Same item that was signed earlier.
+        /// 
+        /// </param>
+        /// <returns></returns>
+        public static bool VerifySignature(byte[] signedHashValue, byte[] objectToVerify, string publicKey)
+        {
+            RSA rsa = RSA.Create();
+            rsa.FromXmlString(publicKey);
+
+            RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
+            rsaDeformatter.SetHashAlgorithm("SHA1");
+
+            bool isValid = rsaDeformatter.VerifySignature(objectToVerify, signedHashValue);
+
+            return isValid;
+        }
+
+
+        public static void Hybrid()
+        {
+            RSAPKCS1KeyExchangeFormatter rSAPKCS1KeyExchangeFormatter = new RSAPKCS1KeyExchangeFormatter();
+          //  rSAPKCS1KeyExchangeFormatter.
+        }
+
     }
 }
