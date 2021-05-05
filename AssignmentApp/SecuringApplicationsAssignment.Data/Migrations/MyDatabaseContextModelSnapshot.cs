@@ -89,6 +89,12 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PrivateKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicKey")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TeacherEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -107,6 +113,10 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                     b.Property<Guid>("AssignmentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("FileHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -114,6 +124,18 @@ namespace SecuringApplicationsAssignment.Data.Migrations
                     b.Property<string>("MemberEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Signature")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SymmetricIV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SymmetricKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

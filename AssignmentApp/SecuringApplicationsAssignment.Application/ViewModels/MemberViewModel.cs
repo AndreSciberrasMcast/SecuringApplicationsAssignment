@@ -23,5 +23,7 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
         public string PrivateKey { get; set; }
 
         public string PublicKey { get; set; }
+
+        
     }
 }

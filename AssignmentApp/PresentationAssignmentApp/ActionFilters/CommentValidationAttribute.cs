@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PresentationAssignmentApp.ActionFilters
 {
-    public class CommentValidationAttribute : ActionFilterAttribute
+    public class  CommentValidationAttribute: ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {

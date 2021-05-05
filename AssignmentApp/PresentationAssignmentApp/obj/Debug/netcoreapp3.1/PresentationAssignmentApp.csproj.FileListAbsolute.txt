@@ -148,9 +148,6 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Prese
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.csprojAssemblyReference.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.AssemblyInfoInputs.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.AssemblyInfo.cs
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.csproj.CoreCompileInputs.cache
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.RazorAssemblyInfo.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.RazorAssemblyInfo.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.TagHelpers.input.cache
@@ -193,3 +190,13 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Prese
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\AddStudent.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Views\Assignments\ViewSubmission.cshtml.g.cs
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\Razor\Views\Assignments\ViewSubmissions.cshtml.g.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Extensions.Logging.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Extensions.Logging.File.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Formatting.Compact.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Sinks.Async.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Sinks.File.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\bin\Debug\netcoreapp3.1\Serilog.Sinks.RollingFile.dll
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.csproj.CoreCompileInputs.cache
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\PresentationAssignmentApp\obj\Debug\netcoreapp3.1\PresentationAssignmentApp.MvcApplicationPartsAssemblyInfo.cache

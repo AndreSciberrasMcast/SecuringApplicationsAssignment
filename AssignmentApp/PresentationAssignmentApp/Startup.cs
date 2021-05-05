@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SecuringApplicationsAssignment.IOC;
 using SecuringApplicationsAssignment.Data.Context;
+using Microsoft.Extensions.Logging;
 
 namespace PresentationAssignmentApp
 {
@@ -70,12 +71,18 @@ namespace PresentationAssignmentApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(
+                "Logs/filelogs-{Date}.txt"
+            );
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseExceptionHandler("/Home/Error");
             }
             else
             {

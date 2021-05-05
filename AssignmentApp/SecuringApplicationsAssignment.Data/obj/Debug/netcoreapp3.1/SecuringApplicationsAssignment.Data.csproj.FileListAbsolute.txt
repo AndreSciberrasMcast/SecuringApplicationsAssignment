@@ -6,7 +6,7 @@ C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\Secur
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.csprojAssemblyReference.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.AssemblyInfoInputs.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.AssemblyInfo.cs
-C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.csproj.CoreCompileInputs.cache
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.csproj.CopyComplete
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.dll
 C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.pdb
+C:\Users\AndrePC\source\repos\SecuringApplicationsAssignment\AssignmentApp\SecuringApplicationsAssignment.Data\obj\Debug\netcoreapp3.1\SecuringApplicationsAssignment.Data.csproj.CoreCompileInputs.cache

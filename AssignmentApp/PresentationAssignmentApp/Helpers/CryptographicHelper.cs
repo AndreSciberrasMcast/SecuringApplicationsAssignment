@@ -41,7 +41,7 @@ namespace PresentationAssignmentApp.Helpers
                 messageWithSalt = temp.ToArray();
             }
 
-            SHA512 sha = SHA512.Create();
+            SHA256 sha = SHA256.Create();
             byte[] digest = sha.ComputeHash(messageWithSalt);
 
             return digest;
@@ -83,21 +83,60 @@ namespace PresentationAssignmentApp.Helpers
         //Be sure to URI.Encode before and URI.decode after you use it as a query string
         public static byte[] SymmetricEncrypt(byte[] plainTextMessage)
         {
-            
+            Aes aes = Aes.Create();
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Mode = CipherMode.CBC;
+
+            // GenerateKeys() in the static contructor
+
+            // apply symmetric encryption to:
+            // 1. query string parameters
+            // 2. as part of hybrid encryption
+
+            // plainTextMethod and we are going to create a stream from this data
+            using (MemoryStream msIn = new MemoryStream(plainTextMessage))
+            {
+                // Be very careful to position the memory stream at position 0!
+                msIn.Position = 0;
+                // msIn.Seek(0, SeekOrigin.Begin);
+
+                // create a stream for the output of the cryptographic algorithm
+                using (MemoryStream msOut = new MemoryStream())
+                {
+
+                    // create a cryptostream <- will take as inputs, the aes algorithm, the output stream
+                    // we will pass the values from the input stream to the cryptostream and obtain the encrypted output
+                    using (CryptoStream cs = new CryptoStream(
+                        msOut,
+                        aes.CreateEncryptor(_keyIVPair.Item1, _keyIVPair.Item2),
+                        CryptoStreamMode.Write))
+                    {
+                        msIn.CopyTo(cs);
+                        cs.FlushFinalBlock();
+                    }
+
+                    return msOut.ToArray();
+                }
+            }
+        }
+
+        public static byte[] SymmetricEncrypt(byte[] plainTextMessage, byte[] key, byte[] iv)  
+        {
+
             Aes aes = Aes.Create();
             aes.Padding = PaddingMode.PKCS7;
             aes.Mode = CipherMode.CBC;
 
             using (MemoryStream msIn = new MemoryStream(plainTextMessage))
             {
-              
+
                 msIn.Position = 0;
 
                 using (MemoryStream msOut = new MemoryStream())
                 {
                     using (CryptoStream cs = new CryptoStream(
                         msOut,
-                        aes.CreateEncryptor(_keyIVPair.Item1, _keyIVPair.Item2),
+                        aes.CreateEncryptor(key, iv),
                         CryptoStreamMode.Write))
                     {
                         msIn.CopyTo(cs);
@@ -115,12 +154,40 @@ namespace PresentationAssignmentApp.Helpers
 
             byte[] plainTextAsBytes = SymmetricDecrypt(cipherTextAsBytes);
 
-            string decryptedCipher = Encoding.UTF32.GetString(plainTextAsBytes);
-
-            return decryptedCipher;
+            return Encoding.UTF32.GetString(plainTextAsBytes);
         }
 
         public static byte[] SymmetricDecrypt(byte[] encryptedMessage)
+        {
+            Aes aes = Aes.Create();
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Mode = CipherMode.CBC;
+
+            using (MemoryStream msIn = new MemoryStream(encryptedMessage))
+            {
+                msIn.Position = 0;
+
+                // create a stream for the output of the cryptographic algorithm
+                using (MemoryStream msOut = new MemoryStream())
+                {
+
+                    // create a cryptostream <- will take as inputs, the aes algorithm, the output stream
+                    // we will pass the values from the input stream to the cryptostream and obtain the encrypted output
+                    using (CryptoStream cs = new CryptoStream(
+                                msOut,
+                                aes.CreateDecryptor(_keyIVPair.Item1, _keyIVPair.Item2),
+                                CryptoStreamMode.Write))
+                    {
+                        msIn.CopyTo(cs);
+                        cs.FlushFinalBlock();
+                    }
+
+                    return msOut.ToArray();
+                }
+            }
+        }
+
+        public static byte[] SymmetricDecrypt(byte[] encryptedMessage, byte[] key, byte[] iv)
         {
             Aes aes = Aes.Create();
             aes.Padding = PaddingMode.PKCS7;
@@ -133,7 +200,7 @@ namespace PresentationAssignmentApp.Helpers
                 {
                     using (CryptoStream cs = new CryptoStream(
                                 msOut,
-                                aes.CreateDecryptor(_keyIVPair.Item1, _keyIVPair.Item2),
+                                aes.CreateDecryptor(key, iv),
                                 CryptoStreamMode.Write))
                     {
                         msIn.CopyTo(cs);
@@ -190,16 +257,18 @@ namespace PresentationAssignmentApp.Helpers
             return cipher;
         }
 
-        public static byte[] GenerateSignature(byte[] objectToSign, string privateKey)
+        public static byte[] GenerateSignature(byte[] hash, string privateKey)
         { 
             RSA rsa = RSA.Create();
             rsa.FromXmlString(privateKey);
+            
 
             RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(rsa);
 
-            signatureFormatter.SetHashAlgorithm("SHA1");
 
-            byte[] signedHashValue = signatureFormatter.CreateSignature(objectToSign);
+            signatureFormatter.SetHashAlgorithm("SHA256");
+
+            byte[] signedHashValue = signatureFormatter.CreateSignature(hash);
 
             return signedHashValue;
         }
@@ -213,24 +282,17 @@ namespace PresentationAssignmentApp.Helpers
         /// 
         /// </param>
         /// <returns></returns>
-        public static bool VerifySignature(byte[] signedHashValue, byte[] objectToVerify, string publicKey)
+        public static bool VerifySignature(byte[] signedHashValue, byte[] hash, string publicKey)
         {
             RSA rsa = RSA.Create();
             rsa.FromXmlString(publicKey);
 
             RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
-            rsaDeformatter.SetHashAlgorithm("SHA1");
+            rsaDeformatter.SetHashAlgorithm("SHA256");
 
-            bool isValid = rsaDeformatter.VerifySignature(objectToVerify, signedHashValue);
+            bool isValid = rsaDeformatter.VerifySignature(hash, signedHashValue);
 
             return isValid;
-        }
-
-
-        public static void Hybrid()
-        {
-            RSAPKCS1KeyExchangeFormatter rSAPKCS1KeyExchangeFormatter = new RSAPKCS1KeyExchangeFormatter();
-          //  rSAPKCS1KeyExchangeFormatter.
         }
 
     }

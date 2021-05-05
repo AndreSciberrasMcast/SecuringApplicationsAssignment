@@ -13,6 +13,14 @@ namespace SecuringApplicationsAssignment.Application.ViewModels
 
         public string FilePath { get; set; }
 
+        public string FileHash { get; set; }
+
+        public string Signature { get; set; }
+
+        public string SymmetricKey { get; set; }
+
+        public string SymmetricIV { get; set; }
+
         public MemberViewModel Member { get; set; }
     }
 }

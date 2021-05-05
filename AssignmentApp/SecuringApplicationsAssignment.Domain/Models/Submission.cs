@@ -22,6 +22,18 @@ namespace SecuringApplicationsAssignment.Domain.Models
         public string FilePath { get; set; }
 
         [Required]
+        public string FileHash { get; set; }
+
+        [Required]
+        public string Signature { get; set; }
+
+        [Required]
+        public string SymmetricKey { get; set; }
+
+        [Required]
+        public string SymmetricIV { get; set; }
+
+        [Required]
         public virtual Member Member { get; set; }
 
         [ForeignKey("Member")]

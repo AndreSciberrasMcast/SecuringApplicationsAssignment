@@ -20,5 +20,8 @@ namespace SecuringApplicationsAssignment.Domain.Models
         public string TeacherEmail { get; set; }
 
         public string PrivateKey { get; set; }
+        public string PublicKey { get; set; }
+
+      
     }
 }

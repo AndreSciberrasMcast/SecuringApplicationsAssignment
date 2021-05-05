@@ -156,7 +156,7 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
                             FirstName = Input.FirstName,
                             LastName = Input.LastName,
                             //Generating Keys for teacher
-                            PrivateKey = CryptographicHelper.SymmetricEncrypt(keys.Item2),
+                            PrivateKey = keys.Item2,
                             PublicKey = keys.Item1
                         }
                     );

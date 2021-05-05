@@ -106,6 +106,10 @@ namespace SecuringApplicationsAssignment.Application.Services
             sub.Assignment = _assignmentsRepository.GetAssignment(submission.Assignment.Id);
             sub.Member = _membersRepository.GetMember(submission.Member.Email);
             sub.FilePath = submission.FilePath;
+            sub.FileHash = submission.FileHash;
+            sub.Signature = submission.Signature;
+            sub.SymmetricIV = submission.SymmetricIV;
+            sub.SymmetricKey = submission.SymmetricKey;
             _submissionsRepository.AddSubmission(sub);
         }
 
@@ -116,6 +120,10 @@ namespace SecuringApplicationsAssignment.Application.Services
                        {
                            Id = p.Id,
                            FilePath = p.FilePath,
+                           FileHash = p.FileHash,
+                           SymmetricIV = p.SymmetricIV,
+                           SymmetricKey = p.SymmetricKey,
+                           Signature = p.Signature,
                            Assignment = new AssignmentViewmodel() { Id = p.Assignment.Id, Name = p.Assignment.Name, Description = p.Assignment.Description, Deadline = p.Assignment.Deadline },
                            Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.LastName, TeacherEmail = p.Member.TeacherEmail }
                        };
@@ -129,6 +137,10 @@ namespace SecuringApplicationsAssignment.Application.Services
                        {
                            Id = p.Id,
                            FilePath = p.FilePath,
+                           FileHash = p.FileHash,
+                           Signature = p.Signature,
+                           SymmetricIV = p.SymmetricIV,
+                           SymmetricKey = p.SymmetricKey,
                            Assignment = new AssignmentViewmodel() { Id = p.Assignment.Id, Deadline = p.Assignment.Deadline, Description = p.Assignment.Description, Name = p.Assignment.Name },
                            Member = new MemberViewModel() { Email = p.Member.Email, FirstName = p.Member.FirstName, LastName = p.Member.LastName, TeacherEmail = p.Member.TeacherEmail}
                        };
@@ -144,6 +156,10 @@ namespace SecuringApplicationsAssignment.Application.Services
             SubmissionViewModel submission = new SubmissionViewModel();
             submission.Id = sub.Id;
             submission.FilePath = sub.FilePath;
+            submission.FileHash = sub.FileHash;
+            submission.SymmetricKey = sub.SymmetricKey;
+            submission.Signature = sub.Signature;
+            submission.SymmetricIV = sub.SymmetricIV;
             submission.Assignment = GetAssignment(sub.AssignmentId);
             submission.Member = _membersService.GetMember(sub.MemberEmail);
             return submission;
@@ -157,6 +173,10 @@ namespace SecuringApplicationsAssignment.Application.Services
             SubmissionViewModel submission = new SubmissionViewModel();
             submission.Id = sub.Id;
             submission.FilePath = sub.FilePath;
+            submission.FileHash = sub.FileHash;
+            submission.Signature = sub.Signature;
+            submission.SymmetricKey = sub.SymmetricKey;
+            submission.SymmetricIV = sub.SymmetricIV;
             submission.Member = _membersService.GetMember(sub.MemberEmail);
             submission.Assignment = GetAssignment(sub.AssignmentId);
             return submission;

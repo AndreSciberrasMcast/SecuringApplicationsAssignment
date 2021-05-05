@@ -103,7 +103,7 @@ namespace PresentationAssignmentApp.Areas.Identity.Pages.Account
                             LastName = Input.LastName,
                             //Generating the private key to be 
 
-                            PrivateKey = CryptographicHelper.SymmetricEncrypt(keys.Item2),
+                            PrivateKey = keys.Item2,
                             PublicKey = keys.Item1
                         }); 
 

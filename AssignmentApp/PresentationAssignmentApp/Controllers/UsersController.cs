@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PresentationAssignmentApp.Data;
+using PresentationAssignmentApp.Helpers;
 using PresentationAssignmentApp.Models;
 using SecuringApplicationsAssignment.Application.Interfaces;
 using SecuringApplicationsAssignment.Application.ViewModels;
@@ -18,11 +20,13 @@ namespace PresentationAssignmentApp.Controllers
     {
         private readonly IMembersService _membersService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IMembersService membersService, UserManager<ApplicationUser> userManager)
+        public UsersController(IMembersService membersService, UserManager<ApplicationUser> userManager, ILogger<UsersController> logger)
         {
             _membersService = membersService;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -90,12 +94,24 @@ namespace PresentationAssignmentApp.Controllers
 
 
                 model.MemberModel.TeacherEmail = User.Identity.Name;
+                
+                Tuple<string, string> keys = CryptographicHelper.GenerateAsymmetricKeys();
+
+                model.MemberModel.PublicKey = keys.Item1;
+                model.MemberModel.PrivateKey = keys.Item2;
                 _membersService.AddMember(model.MemberModel);
 
             }
 
             return RedirectToAction("Index", "Assignments");
 
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            _logger.LogInformation("An error has occured");
+            return View();
         }
 
         private string GenerateRandomPassword()

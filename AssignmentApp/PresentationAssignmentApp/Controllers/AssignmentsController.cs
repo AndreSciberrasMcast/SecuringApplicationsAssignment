@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PresentationAssignmentApp.ActionFilters;
 using PresentationAssignmentApp.Helpers;
 using PresentationAssignmentApp.Models;
@@ -21,14 +22,18 @@ namespace PresentationAssignmentApp.Controllers
     {
         private readonly IAssignmentsService _assignmentsService;
         private readonly IWebHostEnvironment _host;
+        private readonly ILogger<AssignmentsController> _logger;
+
         private readonly IMembersService _membersService;
 
-        public AssignmentsController(IAssignmentsService assignmentsService, IMembersService membersService, IWebHostEnvironment host)
+        public AssignmentsController(IAssignmentsService assignmentsService, IMembersService membersService, IWebHostEnvironment host, ILogger<AssignmentsController> logger)
         {
             _assignmentsService = assignmentsService;
             _membersService = membersService;
             _host = host;
+            _logger = logger;
         }
+
 
         [Authorize]
         public IActionResult Index()
@@ -36,13 +41,7 @@ namespace PresentationAssignmentApp.Controllers
 
             var list = _assignmentsService.GetAssignments();
             List <AssignmentViewmodel> assignments = new List<AssignmentViewmodel>();
-            /*
-            foreach(AssignmentViewmodel assignment in list)
-            {
-                assignment.EncryptedId = HttpUtility.UrlEncode(CryptographicHelper.SymmetricEncrypt(assignment.Id.ToString()));
-                assignments.Add(assignment);
-            }
-            */
+
 
             if (User.IsInRole("Student"))
             {
@@ -108,23 +107,51 @@ namespace PresentationAssignmentApp.Controllers
                 //If the file passes the following check, a submission is created with user credentials
                 if (firstByte == 37 && secondByte == 80 && thirdByte == 68 && fourthByte == 70 && Path.GetExtension(file.FileName) == ".pdf")
                 {
+                    SubmissionViewModel submission = new SubmissionViewModel();
+                    submission.Member = _membersService.GetMember(User.Identity.Name);
+
+                    Tuple<byte[], byte[]> keys = CryptographicHelper.GenerateKeys();
+
+
+                    MemberViewModel teacher = _membersService.GetMember(submission.Member.TeacherEmail);
+
+                    string encryptedKey = Convert.ToBase64String(CryptographicHelper.AsymmetricEncrypt(keys.Item1, teacher.PublicKey));
+
+                    string encryptedIv = Convert.ToBase64String(CryptographicHelper.AsymmetricEncrypt(keys.Item2, teacher.PublicKey));
+
+
+                    submission.SymmetricKey = encryptedKey;
+                    submission.SymmetricIV = encryptedIv;
+
+                    submission.Assignment = _assignmentsService.GetAssignment(assignment.Id);
+
+
                     string absolutePath = _host.WebRootPath + @"\..\ProtectedFiles\";
                     string uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
-                    MemoryStream ms = new MemoryStream();
-                    
-                    stream.CopyTo(ms);
-                    ms.Position = 0;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        stream.CopyTo(ms);
+                        ms.Position = 0;
+
+                        submission.FileHash = Convert.ToBase64String(CryptographicHelper.Hash(ms.ToArray()));
+
+                        var signature = CryptographicHelper.GenerateSignature(Convert.FromBase64String(submission.FileHash), submission.Member.PrivateKey);
+
+                        submission.Signature = Convert.ToBase64String(CryptographicHelper.SymmetricEncrypt(
+                            signature,
+                            keys.Item1, keys.Item2));
 
 
-                    System.IO.File.WriteAllBytes(absolutePath + uniqueName, CryptographicHelper.SymmetricEncrypt(ms.ToArray()));
+                        System.IO.File.WriteAllBytes(absolutePath + uniqueName,
+                            CryptographicHelper.SymmetricEncrypt(
+                                    ms.ToArray(),
+                                    keys.Item1,
+                                    keys.Item2
+                            )
+                        );
+                    }
 
-                    //Create a submission to be save to db
-                    SubmissionViewModel submission = new SubmissionViewModel();
-                    submission.Member = _membersService.GetMember(User.Identity.Name);
-                    submission.Assignment = _assignmentsService.GetAssignment(assignment.Id);
-                    
-                    //Maybe encrypt
                     submission.FilePath = absolutePath + uniqueName;
                     _assignmentsService.AddSubmission(submission);
 
@@ -216,19 +243,67 @@ namespace PresentationAssignmentApp.Controllers
 
             ViewSubmissionViewModel submission = new ViewSubmissionViewModel();
             submission.Submission = _assignmentsService.GetSubmission(decryptedId);
-        
+
+            if (User.IsInRole("Teacher"))
+            {
+                var checks = CheckForAuthandInt(decryptedId);
+
+                if(checks.Item2 == false)
+                {
+                    ViewData["isAuthentic"] = 0;
+                }
+            }
 
             var comments = _assignmentsService.GetComments(decryptedId);
-
+             
             ViewBag.Comments = comments;
             return View(submission);
         }
 
+        public Tuple<bool, bool> CheckForAuthandInt(Guid id){
+
+            bool isDistinct = true;
+            bool isVerified = true;
+
+            SubmissionViewModel submission = _assignmentsService.GetSubmission(id);
+
+            var submissions = _assignmentsService.GetSubmissions(submission.Assignment.Id);
+
+            MemberViewModel teacher = _membersService.GetMember(submission.Member.TeacherEmail);
+
+
+            byte[] key = CryptographicHelper.AsymmetricDecrypt(
+                Convert.FromBase64String(submission.SymmetricKey), teacher.PrivateKey);
+
+            byte[] iv = CryptographicHelper.AsymmetricDecrypt(
+                 Convert.FromBase64String(submission.SymmetricIV), teacher.PrivateKey);
+
+            foreach (SubmissionViewModel sub in submissions)
+            {
+                if (sub.FileHash == submission.FileHash && sub.Member.Email != submission.Member.Email)
+                {
+                    TempData["warning"] += "Assignment is identical to " + sub.Member.Email + "'s assignment!\n";
+                    isDistinct = false;
+                }
+            }
+
+            if (!CryptographicHelper.VerifySignature(
+                        CryptographicHelper.SymmetricDecrypt(
+                            Convert.FromBase64String(submission.Signature), key, iv),
+                        CryptographicHelper.Hash(GetDecryptedAssignment(id)),
+                        submission.Member.PublicKey))
+            {
+                isVerified = false;
+            }
+
+            return new Tuple<bool, bool>(isDistinct, isVerified);
+        }
+
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]  
         public IActionResult ViewSubmission()
         {
-            
             return View();
         }
 
@@ -266,42 +341,55 @@ namespace PresentationAssignmentApp.Controllers
 
 
         [Authorize]
-        public IActionResult ViewFile(string id)
+        [ValidateUserActionFilter]
+        public IActionResult ViewFile(string id) 
         {
-            string filepath = _assignmentsService.GetSubmission(Guid.Parse(HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)))).FilePath;
+            Guid decryptedId = Guid.Parse(HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)));
 
-            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+            byte[] decryptedAssignment = GetDecryptedAssignment(decryptedId);
 
-            MemoryStream ms = new MemoryStream();
-
-            fs.CopyTo(ms);
-
-            byte[] encryptedAssignment = ms.ToArray();
-
-            byte[] decryptedAssignment = CryptographicHelper.SymmetricDecrypt(encryptedAssignment);
-
-     
-            return File(decryptedAssignment, "application/pdf");
-        }
-
-        public async Task<IActionResult> DownloadFile(string id)
-        {
-            string filepath = _assignmentsService.GetSubmission(Guid.Parse(HttpUtility.UrlDecode(CryptographicHelper.SymmetricDecrypt(id)))).FilePath;
-
-            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-
-            MemoryStream ms = new MemoryStream();
-
-            fs.CopyTo(ms);
-
-            byte[] encryptedAssignment = ms.ToArray();
-
-            byte[] decryptedAssignment = CryptographicHelper.SymmetricDecrypt(encryptedAssignment);
-
+            if (User.IsInRole("Teacher"))
+            {
+                _logger.LogInformation("Teacher " + User.Identity.Name + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
+            }else if (User.IsInRole("Student")) {
+                _logger.LogInformation("Student " + User.Identity.Name + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
+            }
 
             return File(decryptedAssignment, "application/pdf");
         }
        
+        public byte[] GetDecryptedAssignment(Guid submissionId)
+        {
+            SubmissionViewModel submission = _assignmentsService.GetSubmission(submissionId);
+
+            FileStream fs = new FileStream(submission.FilePath, FileMode.Open, FileAccess.Read);
+
+            MemberViewModel teacher = _membersService.GetMember(submission.Member.TeacherEmail);
+
+            byte[] key = CryptographicHelper.AsymmetricDecrypt(
+                Convert.FromBase64String(submission.SymmetricKey), teacher.PrivateKey);
+
+            byte[] iv = CryptographicHelper.AsymmetricDecrypt(
+                 Convert.FromBase64String(submission.SymmetricIV), teacher.PrivateKey);
+
+
+            MemoryStream ms = new MemoryStream();
+
+            fs.CopyTo(ms);
+
+            byte[] encryptedAssignment = ms.ToArray();
+
+            byte[] decryptedAssignment = CryptographicHelper.SymmetricDecrypt(
+                encryptedAssignment,
+                key, iv);
+
+            return decryptedAssignment;
+        }
+
+        public ILogger GetLogger()
+        {
+            return _logger;
+        }
 
     }
 
