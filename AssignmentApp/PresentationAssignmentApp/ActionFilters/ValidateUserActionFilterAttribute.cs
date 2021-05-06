@@ -5,6 +5,8 @@ using PresentationAssignmentApp.Controllers;
 using PresentationAssignmentApp.Helpers;
 using SecuringApplicationsAssignment.Application.Interfaces;
 using System;
+using System.Linq;
+using System.Net;
 
 namespace PresentationAssignmentApp.ActionFilters
 {
@@ -28,7 +30,11 @@ namespace PresentationAssignmentApp.ActionFilters
 
                 if (loggedInUser != assignmentsService.GetSubmission(id).Member.Email && !context.HttpContext.User.IsInRole("Teacher"))
                 {
-                    logger.LogInformation(loggedInUser + " tried to access submission with id " + id + ". Access was denied");
+                    IPHostEntry iphostinfo = Dns.GetHostEntry(Dns.GetHostName());
+
+                    string ipaddress = Convert.ToString(iphostinfo.AddressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork));
+
+                    logger.LogInformation(loggedInUser + " on IP " + ipaddress + " tried to access submission with id " + id + ". Access was denied");
                     
                     context.Result = new UnauthorizedObjectResult("Access Denied");
                 }

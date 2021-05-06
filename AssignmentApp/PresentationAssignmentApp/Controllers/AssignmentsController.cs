@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -348,11 +349,16 @@ namespace PresentationAssignmentApp.Controllers
 
             byte[] decryptedAssignment = GetDecryptedAssignment(decryptedId);
 
+            IPHostEntry iphostinfo = Dns.GetHostEntry(Dns.GetHostName());
+
+            string ipaddress = Convert.ToString(iphostinfo.AddressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork));
+
+
             if (User.IsInRole("Teacher"))
             {
-                _logger.LogInformation("Teacher " + User.Identity.Name + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
+                _logger.LogInformation("Teacher " + User.Identity.Name + " on IP " + ipaddress + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
             }else if (User.IsInRole("Student")) {
-                _logger.LogInformation("Student " + User.Identity.Name + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
+                _logger.LogInformation("Student " + User.Identity.Name + " on IP " + ipaddress + " accessed file of submission " + decryptedId + " on " + DateTime.Now);
             }
 
             return File(decryptedAssignment, "application/pdf");
